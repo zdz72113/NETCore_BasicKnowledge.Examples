@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>89e852ea-c7e1-45c5-9c66-0f93bebf365f</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Dapper.Contrib" Version="1.50.5" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="MySql.Data" Version="8.0.12" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>
