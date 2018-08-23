@@ -23,7 +23,7 @@ namespace ORMDemo.Dapper.Infrastructure.Data
             services.AddOptions();
             services.Configure(setupAction);
             services.AddScoped<DapperDBContext, T>();
-            services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
+            services.AddScoped<IUnitOfWorkFactory, DapperUnitOfWorkFactory>();
 
             return services;
         }

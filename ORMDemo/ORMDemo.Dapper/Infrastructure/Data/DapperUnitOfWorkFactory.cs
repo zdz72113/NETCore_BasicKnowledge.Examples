@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ORMDemo.Dapper.Infrastructure.Data
 {
-    public class UnitOfWorkFactory : IUnitOfWorkFactory
+    public class DapperUnitOfWorkFactory : IUnitOfWorkFactory
     {
         private readonly DapperDBContext _context;
 
-        public UnitOfWorkFactory(DapperDBContext context)
+        public DapperUnitOfWorkFactory(DapperDBContext context)
         {
             _context = context;
         }

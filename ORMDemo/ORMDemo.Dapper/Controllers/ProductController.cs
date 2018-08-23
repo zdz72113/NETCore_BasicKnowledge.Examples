@@ -34,15 +34,6 @@ namespace ORMDemo.Dapper.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var data = await _productRepository.GetByIDAsync(id);
-
-            Product prod = new Product() { Name = "TestProduct", Quantity = 0, Price = 0, CategoryId = 3 };
-            await _productRepository.AddAsync(prod);
-            //using (var uow = _uowFactory.Create())
-            //{
-            //    await _productRepository.AddAsync(prod);
-
-            //    uow.SaveChanges();
-            //}
             return Ok(data);
         }
 
@@ -54,7 +45,14 @@ namespace ORMDemo.Dapper.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _productRepository.AddAsync(prod);
+            //await _productRepository.AddAsync(prod);
+
+            using (var uow = _uowFactory.Create())
+            {
+                await _productRepository.AddAsync(prod);
+
+                uow.SaveChanges();
+            }
 
             return NoContent();
         }
