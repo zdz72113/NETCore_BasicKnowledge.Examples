@@ -5,7 +5,13 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORMDemo.Dapper", "ORMDemo.Dapper\ORMDemo.Dapper.csproj", "{268B0E38-3E21-46D7-8E77-81204D1FDE22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORMDemo.Dapper.Test", "ORMDemo.Dapper.Test\ORMDemo.Dapper.Test.csproj", "{441FCA41-1F42-488D-8908-4327CE7BF4E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORMDemo.Dapper.Test", "ORMDemo.Dapper.Test\ORMDemo.Dapper.Test.csproj", "{441FCA41-1F42-488D-8908-4327CE7BF4E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORMDemo.EF", "ORMDemo.EF\ORMDemo.EF.csproj", "{8FFC380F-0A8F-4405-8728-60AB3012FC77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORMDemo.EFWithRepository", "ORMDemo.EFWithRepository\ORMDemo.EFWithRepository.csproj", "{37C7EB4B-5C5A-40D6-831F-985BAEA68D55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORMDemo.EFDBFirst", "ORMDemo.EFDBFirst\ORMDemo.EFDBFirst.csproj", "{50ACC159-42B1-46E4-B6C3-63A0F48FBBB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{441FCA41-1F42-488D-8908-4327CE7BF4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{441FCA41-1F42-488D-8908-4327CE7BF4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{441FCA41-1F42-488D-8908-4327CE7BF4E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FFC380F-0A8F-4405-8728-60AB3012FC77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FFC380F-0A8F-4405-8728-60AB3012FC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FFC380F-0A8F-4405-8728-60AB3012FC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FFC380F-0A8F-4405-8728-60AB3012FC77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37C7EB4B-5C5A-40D6-831F-985BAEA68D55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C7EB4B-5C5A-40D6-831F-985BAEA68D55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C7EB4B-5C5A-40D6-831F-985BAEA68D55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C7EB4B-5C5A-40D6-831F-985BAEA68D55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50ACC159-42B1-46E4-B6C3-63A0F48FBBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50ACC159-42B1-46E4-B6C3-63A0F48FBBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50ACC159-42B1-46E4-B6C3-63A0F48FBBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50ACC159-42B1-46E4-B6C3-63A0F48FBBB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
