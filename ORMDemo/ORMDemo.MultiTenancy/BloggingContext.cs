@@ -29,9 +29,12 @@ namespace ORMDemo.MultiTenancy
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                ConfigureGlobalFiltersMethodInfo
-                    .MakeGenericMethod(entityType.ClrType)
-                    .Invoke(this, new object[] { modelBuilder });
+                if (entityType.ClrType.BaseType == typeof(BaseEntity))
+                {
+                    ConfigureGlobalFiltersMethodInfo
+                        .MakeGenericMethod(entityType.ClrType)
+                        .Invoke(this, new object[] { modelBuilder });
+                }
             }
 
             base.OnModelCreating(modelBuilder);
