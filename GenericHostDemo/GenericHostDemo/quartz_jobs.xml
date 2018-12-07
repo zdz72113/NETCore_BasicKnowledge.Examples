@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<job-scheduling-data xmlns="http://quartznet.sourceforge.net/JobSchedulingData"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 				version="2.0">
+
+  <processing-directives>
+    <overwrite-existing-data>true</overwrite-existing-data>
+  </processing-directives>
+
+  <schedule>
+    <job>
+      <name>TestJob</name>
+      <group>TestGroup</group>
+      <description>TestJob Description</description>
+      <job-type>GenericHostDemo.Jobs.TestJob, GenericHostDemo</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+    </job>
+    <trigger>
+      <simple>
+        <name>TestJobTrigger</name>
+        <group>TestGroup</group>
+        <description>TestJobTrigger Description</description>
+        <job-name>TestJob</job-name>
+        <job-group>TestGroup</job-group>
+        <repeat-count>-1</repeat-count>
+        <repeat-interval>5000</repeat-interval>
+      </simple>
+    </trigger>
+
+  </schedule>
+</job-scheduling-data>
