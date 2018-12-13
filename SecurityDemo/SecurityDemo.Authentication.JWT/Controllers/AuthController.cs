@@ -65,6 +65,7 @@ namespace SecurityDemo.Authentication.JWT.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("[action]")]
+        [Authorize]
         public async Task<IActionResult> RefreshToken([FromBody]RefreshTokenRequest request)
         {
             string userName;
