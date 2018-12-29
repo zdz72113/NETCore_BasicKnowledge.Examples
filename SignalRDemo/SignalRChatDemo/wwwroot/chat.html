@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1 id="head1"></h1>
+    <div>
+        <input type="button" id="connect" value="Connect" />
+        <input type="button" id="disconnect" value="Disconnect" />
+    </div>
+
+
+    <h4>To Everybody</h4>
+    <form class="form-inline">
+        <div class="input-append">
+            <input type="text" id="message-text" placeholder="Type a message" />
+            <input type="button" id="broadcast" class="btn" value="Broadcast" />
+            <input type="button" id="broadcast-exceptme" class="btn" value="Broadcast (All Except Me)" />
+        </div>
+    </form>
+
+    <h4>To Me</h4>
+    <form class="form-inline">
+        <div class="input-append">
+            <input type="text" id="me-message-text" placeholder="Type a message" />
+            <input type="button" id="sendtome" class="btn" value="Send to me" />
+        </div>
+    </form>
+
+    <h4>Group</h4>
+    <form class="form-inline">
+        <div class="input-append">
+            <input type="text" id="group-text" placeholder="Type a group name" />
+            <input type="button" id="join-group" class="btn" value="Join Group" />
+            <input type="button" id="leave-group" class="btn" value="Leave Group" />
+        </div>
+    </form>
+
+    <h4>Private Message</h4>
+    <form class="form-inline">
+        <div class="input-prepend input-append">
+            <input type="text" id="group-message-text" placeholder="Type a message" />
+            <input type="text" id="group-name" placeholder="Type the group name" />
+
+            <input type="button" id="sendgroupmsg" class="btn" value="Send to group" />
+        </div>
+    </form>
+
+    <ul id="message-list"></ul>
+</body>
+</html>
+<script src="signalr.js"></script>
+<script>
+    let connectButton = document.getElementById('connect');
+    let disconnectButton = document.getElementById('disconnect');
+    disconnectButton.disabled = true;
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+    document.getElementById("connect").addEventListener("click", function (event) {
+
+        connectButton.disabled = true;
+        disconnectButton.disabled = false;
+
+        connection.on('ReceiveMessage', msg => {
+            addLine(msg);
+        });
+
+        connection.onClosed = e => {
+            if (e) {
+                addLine('Connection closed with error: ' + e, 'red');
+            }
+            else {
+                addLine('Disconnected', 'green');
+            }
+        }
+
+        connection.start()
+            .then(() => {
+                addLine('Connected successfully', 'green');
+            })
+            .catch(err => {
+                addLine(err, 'red');
+            });
+
+        event.preventDefault();
+    });
+
+    document.getElementById("disconnect").addEventListener("click", function (event) {
+
+        connectButton.disabled = false;
+        disconnectButton.disabled = true;
+
+        connection.stop();
+
+        event.preventDefault();
+    });
+
+    document.getElementById("broadcast").addEventListener("click", function (event) {
+
+        var message = document.getElementById('message-text').value;
+        connection.invoke("Send", message).catch(function (err) {
+            addLine(err, 'red');
+        });
+
+        event.preventDefault();
+    });
+
+    document.getElementById("broadcast-exceptme").addEventListener("click", function (event) {
+
+        var message = document.getElementById('message-text').value;
+        connection.invoke("SendAllExceptMe", message).catch(function (err) {
+            addLine(err, 'red');
+        });
+
+        event.preventDefault();
+    });
+
+    document.getElementById("sendtome").addEventListener("click", function (event) {
+
+        var message = document.getElementById('me-message-text').value;
+        connection.invoke("Echo", message).catch(function (err) {
+            addLine(err, 'red');
+        });
+
+        event.preventDefault();
+    });
+
+    document.getElementById("join-group").addEventListener("click", function (event) {
+
+        var groupName = document.getElementById('group-text').value;
+        connection.invoke("JoinGroup", groupName).catch(function (err) {
+            addLine(err, 'red');
+        });
+
+        event.preventDefault();
+    });
+
+    document.getElementById("leave-group").addEventListener("click", function (event) {
+
+        var groupName = document.getElementById('group-text').value;
+        connection.invoke("LeaveGroup", groupName).catch(function (err) {
+            addLine(err, 'red');
+        });
+
+        event.preventDefault();
+    });
+
+    document.getElementById("sendgroupmsg").addEventListener("click", function (event) {
+        var groupName = document.getElementById('group-name').value;
+        var message = document.getElementById('group-message-text').value;
+        connection.invoke("SendToGroup", groupName, message).catch(function (err) {
+            addLine(err, 'red');
+        });
+
+        event.preventDefault();
+    });
+
+    function addLine(line, color) {
+        var child = document.createElement('li');
+        if (color) {
+            child.style.color = color;
+        }
+        child.innerText = line;
+        document.getElementById('message-list').appendChild(child);
+    }
+</script>

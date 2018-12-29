@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1 id="head1"></h1>
+    <form class="form-inline">
+        <div class="input-append">
+            <input type="text" id="username" placeholder="Type the username", value="Roy" />
+            <input type="text" id="password" placeholder="Type the password", value="Roy123" />
+            <input type="button" id="connect" class="btn" value="connect" />
+        </div>
+    </form>
+
+    <h4>To Everybody</h4>
+    <form class="form-inline">
+        <div class="input-append">
+            <input type="text" id="message-text" placeholder="Type a message" />
+            <input type="button" id="broadcast" class="btn" value="Broadcast" />
+        </div>
+    </form>
+
+    <ul id="message-list"></ul>
+</body>
+</html>
+<script src="signalr.js"></script>
+<script>
+    var tokens = {};
+
+    function refreshToken(username, password) {
+        var tokenUrl = 'http://' + document.location.host + '/api/Auth/Login';
+        var data = {
+            userName: username,
+            password: password
+        };
+        return post(tokenUrl, data)
+            .then(function (token) {
+                tokens[username] = token.auth_token;
+            });
+    }
+
+    document.getElementById("connect").addEventListener("click", function (event) {
+
+        document.getElementById("connect").disabled = true;
+
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        var connection;
+        refreshToken(username, password)
+            .then(function () {
+                var options = {
+                    accessTokenFactory: function () { return tokens[username]; }
+                };
+                connection = new signalR.HubConnectionBuilder()
+                    .withUrl("/chatHub", options)
+                    .build();
+
+                connection.on('ReceiveMessage', msg => {
+                    addLine(msg);
+                });
+                return connection.start();
+            })
+            .then(function () {
+                addLine('user ' + username + ' connected');
+                setInterval(function () {
+                    addLine('Refreshing token');
+                    refreshToken(username, password);
+                }, 20000);
+                document.getElementById("broadcast").addEventListener("click", function (event) {
+                    var message = document.getElementById('message-text').value;
+                    connection.invoke("Send", message).catch(function (err) {
+                        addLine(err, 'red');
+                    });
+
+                    event.preventDefault();
+                });
+            })
+            .catch(function (e) {
+                addLine(e, 'red');
+            });
+
+        event.preventDefault();
+    });
+
+    function addLine(line, color) {
+        var child = document.createElement('li');
+        if (color) {
+            child.style.color = color;
+        }
+        child.innerText = line;
+        document.getElementById('message-list').appendChild(child);
+    }
+
+    function post(url, data) {
+        return new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest()
+            xhr.open("POST", url, true)
+            xhr.setRequestHeader("Content-type", "application/json-patch+json");
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        resolve(JSON.parse(this.responseText), this)
+                    } else {
+                        var resJson = { code: this.status, response: this.response }
+                        reject(resJson, this)
+                    }
+                }
+            }
+
+            xhr.send(JSON.stringify(data))
+        })
+    }
+</script>
